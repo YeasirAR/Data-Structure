@@ -1,58 +1,67 @@
 #include <stdio.h>
 #include <stdlib.h>
- 
 #define NULL 0
- 
+
 struct ListNode {
     int data;
     struct ListNode* next;
 };
- 
+
 typedef struct ListNode LN;
- 
+
 class SinglyLinkedList {
     LN* head;
- 
+
 public:
     SinglyLinkedList();
-    ~SinglyLinkedList();
+    ~SinglyLinkedList(); // complete this method
     bool is_empty();
-    void  print();
+    void print();
     bool insert_first(int item);
     bool insert_last(int item);
-    bool insert_after(int newVal, int oldVal);
-    bool delete_first();
-    bool delete_last();
-    bool delete_all();
-    bool delete_after(int item);
-    int calculate_length();
-
+    bool insert_after(int oldval, int newval);
+    bool insert_before(int oldval, int newval); // complete this method
+    bool remove_first();
+    bool remove_last(); // complete this method
+    bool remove_item(int item); // complete this method
+    bool remove_after(int item); // complete this method
+    bool remove_before(int item); // complete this method
+    bool remove_alternate(); // complete this method
+    bool remove_highest(); // complete this method
+    bool reverse_linkedlist();
 };
- 
+
 SinglyLinkedList::SinglyLinkedList() {
     head = NULL;
 }
- 
+
 SinglyLinkedList::~SinglyLinkedList() {
-    // write your code here
+    // completed
+    LN* current = head;
+    LN* temp = NULL;
+    while (current != NULL){
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
 }
- 
+
 bool SinglyLinkedList::is_empty() {
     if(head == NULL)
         return true;
     else
         return false;
 }
- 
+
 void SinglyLinkedList::print() {
     LN* current = head;
     while(current != NULL) {
-        printf("%d->", current->data);
+        printf("->%d", current->data);
         current = current->next;
     }
-    printf("\n");
+    printf("->\n");
 }
- 
+
 bool SinglyLinkedList::insert_first(int item) {
     LN* newNode = (LN*)malloc(sizeof(LN));
     if(newNode == NULL)
@@ -64,12 +73,10 @@ bool SinglyLinkedList::insert_first(int item) {
         return true;
     }
 }
- 
+
 bool SinglyLinkedList::insert_last(int item) {
-    if(is_empty()) { // this is a boundary/corner case
+    if(head == NULL)
         return insert_first(item);
-    }
- 
     LN* current = head;
     while(current->next != NULL) {
         current = current->next;
@@ -84,60 +91,239 @@ bool SinglyLinkedList::insert_last(int item) {
         return true;
     }
 }
-bool SinglyLinkedList::insert_after(int newVal, int oldVal) {
- 
+
+bool SinglyLinkedList::insert_after(int oldval, int newval) {
     LN* current = head;
-    while( current != NULL && current->data != oldVal) {
+    while(current != NULL) {
+        if(current->data == oldval)
+            break;
         current = current->next;
     }
-    if(current== NULL){
+    if(current == NULL)
         return false;
-    }
-    else{
+    else {
         LN* newNode = (LN*)malloc(sizeof(LN));
-        newNode->data = newVal;
-        newNode->next=current->next;
-        current->next = newNode;
+        if(newNode == NULL)
+            return false;
+        else {
+            newNode->data = newval;
+            newNode->next = current->next;
+            current->next = newNode;
+            return true;
+        }
+    }
+}
+
+bool SinglyLinkedList::insert_before(int oldval, int newval) {
+    // completed
+    LN* current = head;
+    LN* prev = NULL;
+    while(current != NULL){
+        if(current->data == oldval)
+            break;
+        prev = current;
+        current = current->next;
+    }
+    if(current == NULL)
+        return false;
+    if(current == head)
+        return insert_first(newval);
+    LN* newNode = (LN*)malloc(sizeof(LN));
+    newNode->data = newval;
+    newNode->next = current;
+    prev->next = newNode;
+    return true;
+}
+
+bool SinglyLinkedList::remove_first() {
+    if(head == NULL)
+        return false;
+    else {
+        LN* current = head;
+        head = head->next;
+        free(current);
         return true;
     }
 }
-bool SinglyLinkedList::delete_first(){
-    while(head !=NULL){
-        if(head->next == NULL){
-            free(head);
-            return true;
+
+bool SinglyLinkedList::remove_last() {
+    // completed
+    if(head == NULL)
+        return false;
+    if(head->next == NULL)
+        return remove_first();
+    LN* current = head;
+    LN* prev = NULL;
+    while(current->next != NULL){
+        prev = current;
+        current = current->next;
+    }
+    prev->next = NULL;
+    free(current);
+    return true;
+}
+
+bool SinglyLinkedList::remove_item(int item) {
+    // completed
+    LN* current = head;
+    LN* prev = NULL;
+    while ( current != NULL){
+        if(current->data == item)
+            break;
+        prev = current;
+        current = current->next;
+    }
+    if(current==NULL)
+        return false;
+    if(current == head)
+        return remove_first();
+    prev->next = current->next;
+    free(current);
+    return true;
+}
+
+bool SinglyLinkedList::remove_after(int item) {
+    // completed
+    LN* current = head;
+    while(current != NULL){
+        if(current->data == item)
+            break;
+        current = current->next;
+    }
+    if(current == NULL)
+        return false;
+    if(current->next == NULL)
+        return false;
+    LN* temp = current->next;
+    current->next = temp->next;
+    free(temp);
+    return true;
+}
+
+bool SinglyLinkedList::remove_before(int item) {
+    // completed
+    LN* current = head;
+    LN* prev = NULL;
+    LN* prevprev = NULL;
+    while( current != NULL){
+        if(current->data == item)
+            break;
+        prevprev = prev;
+        prev = current;
+        current = current->next;
+    }
+    if(current == NULL)
+        return false;
+    if(current == head)
+        return false;
+    if(prev == head)
+        return remove_first();
+    prevprev->next = current;
+    free(prev);
+    return true;
+}
+
+bool SinglyLinkedList::remove_alternate() {
+    // completed
+    if(head == NULL)
+        return false;
+    if(head->next == NULL)
+        return false;
+    LN* prev = head;
+    LN* current = head->next;
+    for(int i=0; current != NULL ; i++){
+        if(i%2==0){
+            prev->next = current->next;
+            free(current);
+            current = prev->next;
+            continue;
         }
-        LN* current = head;
-        current = head;
-        head = head-> next;
-        free(current);
+        prev = current;
         current = current->next;
     }
     return true;
-}
-int SinglyLinkedList::calculate_length(){
-    LN* current = head;
-    int count = 0;
-    while( current != NULL ) {
-        count++;
-        current = current->next;
-    }
-    return count;
     
 }
-bool SinglyLinkedList::delete_all(){
-    while(head !=NULL){
-        LN* current = head;
-        current = head;
-        head = head-> next;
-        free(current);
+
+bool SinglyLinkedList::remove_highest() {
+    // completed
+    if(head == NULL)
+        return false;
+    if(head->next == NULL)
+        return remove_first();
+    LN* current = head;
+    int maximum = current->data;
+    while (current != NULL){
         current = current->next;
+        if(current != NULL && maximum < current->data){
+            maximum = current->data;
+        }
+    }
+    return remove_item(maximum);
+}
+bool SinglyLinkedList::reverse_linkedlist() {
+    LN* prev;
+    LN* current;
+    if(head != NULL){
+        prev = head;
+        current = head->next;
+        head = head->next;
+        prev->next = NULL;
+        while (head != NULL){
+            head = head->next;
+            current->next = prev;
+            prev = current;
+            current = head;
+        }
+        head = prev;
+        printf("Successfully Reversed\n");
     }
     return true;
 }
- 
+
 int main() {
     SinglyLinkedList A;
+
+    A.print();
+    A.insert_last(10);
+    A.print();
+    A.insert_last(20);
+    A.print();
+    A.insert_last(30);
+    A.print();
+    A.insert_last(40);
+    A.print();
+    printf("\n");
+
+    // A.reverse_linkedlist();
+    // A.print();
+
+    
+
+    //insert before 
+    A.insert_before(20,15);
+    A.print();
+    A.insert_before(10,5); 
+    A.print();
+    A.insert_before(45,50); 
+    A.print();
+    printf("\n");
+
+    // remove last
+    A.remove_last();
+    A.print();
+    A.remove_last();
+    A.print();
+    A.remove_last();
+    A.print();
+    A.remove_last();
+    A.print();
+    A.remove_last();
+    A.print(); 
+    A.remove_last(); 
+    A.print(); //Empty LinkedList
+
+    // Adding some value to LinkedList
     A.insert_last(10);
     A.insert_last(20);
     A.insert_last(30);
@@ -145,37 +331,95 @@ int main() {
     A.insert_last(50);
     A.insert_last(60);
     A.insert_last(70);
+    A.insert_last(80);
     A.print();
-    printf("%d\n",A.calculate_length());
-    A.delete_all();
+    printf("\n");
+
+    // remove item
+    A.remove_item(10);
     A.print();
+    A.remove_item(60);
+    A.print();
+    A.remove_item(15);
+    A.print();
+    printf("\n");
+    
+
+    // remove after
+    A.remove_after(40);
+    A.print();
+    A.remove_after(45);
+    A.print();
+    A.remove_after(80);
+    A.print();
+    printf("\n");
+
+    // remove before
+    A.remove_before(40);
+    A.print();
+    A.remove_before(50);
+    A.print();
+    A.remove_before(10);
+    A.print();
+    printf("\n");
+
+    // Adding some value to LinkedList
+    A.insert_last(30);
+    A.insert_last(10);
+    A.insert_last(50);
+    A.print();
+    printf("\n");
+
+    //remove alternate
+    A.remove_alternate(); // returns true
+    A.print();
+    A.remove_alternate(); // returns true
+    A.print();
+    A.remove_alternate(); // returns true
+    A.print();
+    A.remove_alternate(); // returns false because only one item left
+    A.print();
+    A.remove_first();     // making the list empty 
+    A.print();
+    A.remove_alternate(); // returns false because of empty list
+    A.print();
+    printf("\n");
+
+
+    // Adding some value to LinkedList
+    A.insert_last(30);
+    A.insert_last(10);
+    A.insert_last(50);
+    A.insert_last(70);
+    A.insert_last(90);
+    A.insert_last(20);
+    A.insert_last(30);
+    A.insert_last(60);
+    A.insert_last(80);
+    A.print();
+    printf("\n");
 
 
 
-    // A.insert_after(35,30);
-    // A.print();
-    // A.insert_after(55,50);
+    // remove highest
+    A.remove_highest(); // returns true
+    A.print();
+    A.remove_highest(); // returns true
+    A.print();
+    // remove some item so that I can test the corner cases 
+    A.remove_last();
+    A.remove_last();
+    A.remove_last();
+    A.remove_last();
+    A.remove_last();
+    A.remove_last();
+    A.print(); // only one item available at the list
 
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
-    // A.delete_first();
-    // A.print();
+    A.remove_highest(); // returns true
+    A.print();
+    A.remove_highest(); //returns false here ! Empty list
+    A.print();
+    
 
- 
     return 0;
 }

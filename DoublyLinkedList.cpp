@@ -34,6 +34,8 @@ public:
     bool remove_before(int item); // complete this method
     bool remove_alternate(); // complete this method
     bool remove_highest(); // complete this method
+    int length();
+    double sum();
 };
 
 DoublyLinkedList::DoublyLinkedList() {
@@ -338,7 +340,25 @@ bool DoublyLinkedList::remove_highest() {
         }
     }
     return remove_item(maximum);
-    
+}
+
+int DoublyLinkedList::length() {
+    int count = 0;
+    LN* current = head;
+    while(current != NULL){
+        current = current->next;
+        count++;
+    }
+    return count;
+}
+double DoublyLinkedList::sum() {
+    int sum = 0;
+    LN* current = head;
+    while(current != NULL){
+        sum += current->data;
+        current = current->next;
+    }
+    return sum;
 }
 
 int main() {
