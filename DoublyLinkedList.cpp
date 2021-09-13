@@ -36,6 +36,7 @@ public:
     bool remove_highest(); // complete this method
     int length();
     double sum();
+    bool reverse_linkedlist();
 };
 
 DoublyLinkedList::DoublyLinkedList() {
@@ -360,6 +361,25 @@ double DoublyLinkedList::sum() {
     }
     return sum;
 }
+bool DoublyLinkedList::reverse_linkedlist() {
+    LN* prev;
+    LN* current;
+    if(head != NULL){
+        prev = head;
+        current = head->next;
+        head = head->next;
+        prev->next = NULL;
+        while (head != NULL){
+            head = head->next;
+            current->next = prev;
+            prev = current;
+            current = head;
+        }
+        head = prev;
+        printf("Successfully Reversed\n");
+    }
+    return true;
+}
 
 int main() {
     DoublyLinkedList A;
@@ -372,106 +392,109 @@ int main() {
     A.insert_last(40);
     A.print();
 
-    A.insert_before(20, 25);
+    A.reverse_linkedlist();
     A.print();
 
-    A.insert_before(35, 45);
-    A.print();
+    // A.insert_before(20, 25);
+    // A.print();
 
-    A.insert_before(10, 45);
-    A.print();
-    printf("\n");
+    // A.insert_before(35, 45);
+    // A.print();
 
-    // Test case for Search
-    if(A.search(30) != NULL)
-        printf("Search Successful\n");
-    else
-        printf("Returns NULL\n");
-    if(A.search(35) != NULL)
-        printf("Search Successful\n");
-    else
-        printf("Returns NULL\n");
-    printf("\n");
+    // A.insert_before(10, 45);
+    // A.print();
+    // printf("\n");
 
-    // remove item 
-    A.remove_item(10);
-    A.print();
-    A.remove_item(50);
-    A.print();
-    A.remove_item(45);
-    A.print();
-    A.remove_item(40);
-    A.print();
-    printf("\n");
+    // // Test case for Search
+    // if(A.search(30) != NULL)
+    //     printf("Search Successful\n");
+    // else
+    //     printf("Returns NULL\n");
+    // if(A.search(35) != NULL)
+    //     printf("Search Successful\n");
+    // else
+    //     printf("Returns NULL\n");
+    // printf("\n");
 
-    A.insert_last(55);
+    // // remove item 
+    // A.remove_item(10);
+    // A.print();
+    // A.remove_item(50);
+    // A.print();
+    // A.remove_item(45);
+    // A.print();
+    // A.remove_item(40);
+    // A.print();
+    // printf("\n");
 
-    // remove after
-    A.remove_after(20);
-    A.print();
-    A.remove_after(60);
-    A.print();
-    A.remove_after(55);
-    A.print();
-    A.remove_after(20);
-    A.print();
-    printf("\n");
+    // A.insert_last(55);
 
-    // insert some data
-    A.insert_last(10);
-    A.insert_last(15);
-    A.print();
-    printf("\n");
+    // // remove after
+    // A.remove_after(20);
+    // A.print();
+    // A.remove_after(60);
+    // A.print();
+    // A.remove_after(55);
+    // A.print();
+    // A.remove_after(20);
+    // A.print();
+    // printf("\n");
 
-    // remove before
-    A.remove_before(10);
-    A.print();
-    A.remove_before(18);
-    A.print();
-    A.remove_before(25);
-    A.print();
-    A.remove_before(10);
-    A.print();
-    printf("\n");
+    // // insert some data
+    // A.insert_last(10);
+    // A.insert_last(15);
+    // A.print();
+    // printf("\n");
 
-    //insert some data
-    A.insert_last(20);
-    A.insert_last(30);
-    A.insert_last(40);
-    A.insert_last(50);
-    A.insert_last(60);
-    A.print();
-    printf("\n");
+    // // remove before
+    // A.remove_before(10);
+    // A.print();
+    // A.remove_before(18);
+    // A.print();
+    // A.remove_before(25);
+    // A.print();
+    // A.remove_before(10);
+    // A.print();
+    // printf("\n");
 
-    // remove alternate
-    A.remove_alternate();   // returns true
-    A.print();
-    A.remove_alternate();   // returns true
-    A.print();
-    A.remove_alternate();   // returns false , only one item
-    A.print();
-    A.remove_first();       // making the list empty to check another corner case
-    A.print(); 
-    A.remove_alternate();   // returns false , empty list
-    A.print(); 
-    printf("\n");
+    // //insert some data
+    // A.insert_last(20);
+    // A.insert_last(30);
+    // A.insert_last(40);
+    // A.insert_last(50);
+    // A.insert_last(60);
+    // A.print();
+    // printf("\n");
 
-    // insert some data 
-    A.insert_last(60);
-    A.insert_last(75);
-    A.insert_last(30);
-    A.print();
-    printf("\n");
+    // // remove alternate
+    // A.remove_alternate();   // returns true
+    // A.print();
+    // A.remove_alternate();   // returns true
+    // A.print();
+    // A.remove_alternate();   // returns false , only one item
+    // A.print();
+    // A.remove_first();       // making the list empty to check another corner case
+    // A.print(); 
+    // A.remove_alternate();   // returns false , empty list
+    // A.print(); 
+    // printf("\n");
 
-    // remove highest
-    A.remove_highest();   // returns true
-    A.print();
-    A.remove_highest();   // returns true
-    A.print();
-    A.remove_highest();   // returns true
-    A.print();
-    A.remove_highest();   // returns false , empty list
-    A.print();
+    // // insert some data 
+    // A.insert_last(60);
+    // A.insert_last(75);
+    // A.insert_last(30);
+    // A.print();
+    // printf("\n");
+
+    // // remove highest
+    // A.remove_highest();   // returns true
+    // A.print();
+    // A.remove_highest();   // returns true
+    // A.print();
+    // A.remove_highest();   // returns true
+    // A.print();
+    // A.remove_highest();   // returns false , empty list
+    // A.print();
 
 
     return 0;
