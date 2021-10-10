@@ -1,0 +1,29 @@
+Include Library of LCD.
+Include Library of DHT Sensor.
+Declare the pin Conncection of LCD.
+Data pin conncetion for DHT22.
+Declare variable for rainPin,Buzzer pin 
+and some vairable to store the data.
+
+
+
+
+
+//Setup function
+Begin LCD and DHT
+set ouput pin for Buzzer
+
+
+
+//LOOP 
+Read temparature from the sensor
+Read humidity from the sensor
+Set cursor of LCD to first row and print temparature and humidity values 
+Set the cursor for second row
+Read the value of rain sensor 
+When the value of the sensor is high, prints its raining 
+and for low , print Not raining in the LCD.
+
+When Temparature is between (23 to 32) and Humidity is between (30 to 60) 
+    call noTone function of buzzer
+Else call tone function of Buzzer with a frequency 
