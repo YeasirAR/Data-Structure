@@ -30,6 +30,13 @@ SinglyLinkedList::SinglyLinkedList() {
 
 SinglyLinkedList::~SinglyLinkedList() {
     // write your code here
+    LN* current = head;
+    LN* temp = NULL;
+    while (current != NULL){
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
 }
 
 bool SinglyLinkedList::is_empty() {

@@ -30,6 +30,13 @@ Stack::Stack() {
 
 Stack::~Stack() {
     // write your code here
+    LN* current = head;
+    LN* temp = NULL;
+    while (current != NULL){
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
 }
 
 void Stack::print() {
@@ -84,24 +91,39 @@ bool Stack::is_empty() {
 int postfix_evaluator(char str[]) {
     int len = strlen(str);
     Stack S;
+    int A,B;
+
 
     for(int i=0; i<len; i++) {
         char c = str[i];
 
         if('0'<=c && c<='9') {
             // write your code here
+            S.push(c-48);
         }
         else if(c == '+') {
             // write your code here
+            S.pop(A);
+            S.pop(B);
+            S.push(B+A);
         }
         else if(c == '-') {
             // write your code here
+            S.pop(A);
+            S.pop(B);
+            S.push(B-A);
         }
         else if(c == '*') {
             // write your code here
+            S.pop(A);
+            S.pop(B);
+            S.push(B*A);
         }
         else if(c == '/') {
             // write your code here
+            S.pop(A);
+            S.pop(B);
+            S.push(B/A);
         }
     }
     int res;

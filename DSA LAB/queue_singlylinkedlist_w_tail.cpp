@@ -31,6 +31,13 @@ Queue::Queue() {
 
 Queue::~Queue() {
     // write your code here
+    LN* current = head;
+    LN* temp = NULL;
+    while (current != NULL){
+        temp = current->next;
+        free(current);
+        current = temp;
+    }
 }
 
 void Queue::print() {

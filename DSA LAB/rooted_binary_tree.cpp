@@ -36,6 +36,7 @@ BinTree::BinTree() {
 
 BinTree::~BinTree() {
     // complete this method
+    free(root);
 }
 
 void BinTree::preorder(TN* t) {
@@ -47,10 +48,21 @@ void BinTree::preorder(TN* t) {
 }
 
 void BinTree::postorder(TN* t) {
-
+    if(t == NULL){
+        return;
+    }
+    postorder(t->left);
+    postorder(t->right);
+    printf("%c ",t->data);
 }
 
 void BinTree::inorder(TN* t) {
+    if(t == NULL){
+        return;
+    }
+    inorder(t->left);
+    printf("%c ",t->data);
+    inorder(t->right);
 
 }
 
@@ -78,9 +90,15 @@ int main() {
     t.root->left->right->left = createNode('G');
 
 //    t.preorder(t.root);
-//    printf("\n");
 
+    
     t.print(t.root, 0);
-
+    printf("\n");
+    t.preorder(t.root);
+    printf("\n");
+    t.postorder(t.root);
+    printf("\n");
+    t.inorder(t.root);
+    printf("\n");
     return 0;
 }

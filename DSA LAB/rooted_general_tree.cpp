@@ -34,6 +34,7 @@ GenTree::GenTree() {
 }
 
 GenTree::~GenTree() {
+    free(root);
 
 }
 
